@@ -1,0 +1,19 @@
+﻿.table-responsive
+{
+    margin-top: 10px;
+}
+
+input.input-validation-error {
+    border-color: red;
+    color: red;
+}
+
+select.input-validation-error {
+    border-color: red;
+    color: red;
+}
+
+span.field-validation-error
+{
+    color: red;
+}

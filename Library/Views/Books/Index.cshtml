@@ -1,0 +1,64 @@
+﻿@using Library.Models;
+@model IEnumerable<Book>
+
+@{ 
+    Layout = "_Layout";
+    string title = "Books";
+    ViewBag.Title = title;
+} 
+
+<h1>@title</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form class="form-inline" method="get">
+            <div class="form-group">
+                <label for="title" class="sr-only">Search</label>
+                <input type="text" name="title" id="title" value="@ViewBag.BookTitle" class="form-control" placeholder="Title">
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <a asp-route="CreateBookPage" class="btn btn-block btn-success">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Scud</th>
+                <th>Publishing year</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Book book in Model)
+            {
+                <tr>
+                    <td class="book-title">@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>@book.Scud</td>
+                    <td>@book.YearOfPublishing</td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-route="EditBookPage" asp-route-id="@book.Id" class="btn btn-primary">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a asp-route="DeleteBook" asp-route-id="@book.Id" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

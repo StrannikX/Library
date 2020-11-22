@@ -1,0 +1,61 @@
+﻿@using Library.Models;
+@model IEnumerable<Reader>
+
+@{
+    Layout = "_Layout";
+
+    string title = "Readers";
+    ViewBag.Title = title;
+}
+
+<h1>@title</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form class="form-inline" method="get">
+            <div class="form-group">
+                <label for="name" class="sr-only">Search</label>
+                <input type="text" name="name" id="name" value="@ViewBag.ReaderName" class="form-control" placeholder="Reader name">
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <a asp-route="CreateReaderPage" class="btn btn-block btn-success">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Birth date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Reader reader in Model)
+            {
+                <tr>
+                    <td>@reader.FullName</td>
+                    <td>@reader.BirthDate.ToShortDateString()</td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-route="EditReaderPage" asp-route-id="@reader.Id" class="btn btn-primary">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a asp-route="DeleteReader" asp-route-id="@reader.Id" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

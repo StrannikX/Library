@@ -1,0 +1,48 @@
+﻿@using Library.Models;
+@model IEnumerable<LentBook>
+
+@{
+    Layout = "_Layout";
+    string title = "Lent books";
+    ViewBag.Title = title;
+}
+
+<h1>@title</h1>
+
+<div class="row">
+    <div class="col-md-4 offset-md-8">
+        <a asp-route="LentBookPage" class="btn btn-block btn-success">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Scud</th>
+                <th>Publishing year</th>
+                <th>Reader</th>
+                <th>Lent at date</th>
+                <th>Lent on days</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (LentBook issue in Model)
+            {
+                <tr>
+                    <td class="book-title">@issue.Book.Title</td>
+                    <td>@issue.Book.Author</td>
+                    <td>@issue.Book.Scud</td>
+                    <td>@issue.Book.YearOfPublishing</td>
+                    <td>@issue.Reader.FullName</td>
+                    <td>@issue.LentDate.ToShortDateString()</td>
+                    <td>@issue.LentDaysCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

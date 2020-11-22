@@ -1,0 +1,72 @@
+﻿@using Library.ViewModels
+@using Library.Models
+@using System.Text
+@model LentBookPageViewModel
+
+@functions{
+    private string BookName(Book book)
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.Append(book.Title);
+
+        if (!string.IsNullOrEmpty(book.Author))
+        {
+            builder.AppendFormat(" - {0}", book.Author);
+        }
+
+        builder.AppendFormat(" - {0}", book.YearOfPublishing.ToString());
+
+        return builder.ToString();
+    }
+}
+
+@{
+    Layout = "_Layout";
+    string title = "Lent book";
+    ViewBag.Title = title;
+
+    IEnumerable<SelectListItem> booksItems = Model.Books
+        .Select(book => new SelectListItem(BookName(book), book.Id.ToString()));
+
+    IEnumerable<SelectListItem> readersItems = Model.Readers
+        .Select(reader => new SelectListItem(reader.FullName, reader.Id.ToString()));
+}
+
+<h1>@title</h1>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@using (Html.BeginRouteForm("LentBook", FormMethod.Post))
+{
+    <div class="form-row">
+        <div class="col-sm-6 form-group">
+            <label asp-for="LentBook.ReaderId">Reader</label>
+            <select asp-for="LentBook.ReaderId" name="ReaderId" class="form-control" asp-items="@readersItems"></select>
+            <span asp-validation-for="LentBook.ReaderId" />
+        </div>
+        <div class="col-sm-6 form-group">
+            <label asp-for="LentBook.BookId">Book</label>
+            <select asp-for="LentBook.BookId" name="BookId" class="form-control" asp-items="@booksItems"></select>
+            <span asp-validation-for="LentBook.BookId" />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-sm-6 form-group">
+            <label asp-for="LentBook.LentDate">Lent date</label>
+            <input type="date" asp-for="LentBook.LentDate" class="form-control" name="LentDate">
+            <span asp-validation-for="LentBook.LentDate" />
+        </div>
+        <div class="col-sm-6 form-group">
+            <label asp-for="LentBook.LentDaysCount">Lent on days</label>
+            <input type="number" asp-for="LentBook.LentDaysCount" class="form-control" min="1" name="LentDaysCount">
+            <span asp-validation-for="LentBook.LentDaysCount" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Lent book</button>
+}
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+}
